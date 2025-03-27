@@ -95,24 +95,69 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     // TODO: Implement this function according to requirements
     
     // 1. Extract and validate API key from headers
-    
+    const merchant = await getMerchantByApiKey(event.headers['Authentication'].split(' ')[1]); // EG bearer: ...
+
+    if (!merchant) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ message: 'Invalid API key' })
+      };
+    }
     // 2. Authenticate the merchant
+    if (!merchant.isActive) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ message: 'Merchant account is not active' })
+      }
+    }
     
     // 3. Extract and validate the transaction ID
+
+    const transactionId = event.queryStringParameters?.transactionId;
+    if (!transactionId) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'No transaction ID present' })
+      }
+    }
+
+    const reward = await getRewardByTransactionId(transactionId);
     
     // 4. Verify the transaction belongs to the authenticated merchant
+
+    if (!reward || reward.merchantId !== merchant.id) {
+      // logger.warn(`Merchant ${merchant.id} attempted to access reward for transaction ${transactionId}`);
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: 'No reward found for this transaction ID' })
+      }
+    }
     
     // 5. Retrieve reward information
+    const transaction = getTransactionById(reward.transactionId);
+    if (!transaction) {
+      // Log exception...
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'No transaction found for this reward' })
+      }
+    }
     
     // 6. Return appropriate response
     
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Not implemented yet' })
+      body: JSON.stringify({ 
+        id: reward.id,
+        merchantName: merchant.name,
+        amount: reward.amount,
+        transaction: transaction,
+        status: reward.status
+       })
     };
   } catch (error) {
     console.error('Error processing request:', error);
-    
+    // logger.log full data / Sentry.handleException...
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'Internal server error' })

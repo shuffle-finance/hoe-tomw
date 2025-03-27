@@ -5,7 +5,7 @@ RewardHub needs a new architecture for its rewards processing system. The curren
 
 ## Requirements
 Design a scalable, reliable system for reward processing that can:
-- Handle 100,000+ transactions per day (assume evenly distributed on average, with spikes of 5x during promotions on a 1-min rampup)
+- Handle 100,000+ transactions per day (assume evenly distributed on average, with spikes of 5x during promotions on a 1-min rampup) 
 - Process rewards asynchronously to keep transaction times fast
 - Ensure no duplicate rewards are issued
 - Maintain 99.9% availability
@@ -33,3 +33,16 @@ Design a scalable, reliable system for reward processing that can:
 You should spend approximately 20 minutes on this task.
 
 Remember, we're looking for a pragmatic approach that balances immediate needs with future scalability.
+
+
+# Assumptions
+
+We are able to ask for recent transactions (up to 30 days) reguluary from the bank in batch for a single customer
+Each transaction needs to be processed ASAP
+   Check merchant etc is valid
+   Run random change and calcuate ££
+   Tell the customer they've won
+   Credit the customer
+
+Some biz interest in randomness?
+

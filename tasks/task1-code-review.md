@@ -27,3 +27,30 @@ You should spend approximately 40 minutes on this task.
 - Performance issues
 
 Remember, we're looking for your ability to identify issues, prioritize them effectively, and implement clean, maintainable solutions.
+
+
+#
+add uuid typescript type
+add type to reward
+
+add some docs on key methods
+
+pull out get merchant / get user
+
+explicit errors - throw error rather than console log
+
+handle reward failed
+
+///
+
+processTransaction take a transaction
+
+null means no reward!
+    returns null if the merchant is not active
+    user didn't get lucky
+
+otherwise return a reward object
+    pending means bank failure and we need to retry
+    issued means success - nothing more to do
+
+

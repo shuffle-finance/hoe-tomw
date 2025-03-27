@@ -5,9 +5,9 @@ import { handler } from '../functions/verifyReward';
 
 // Helper to create mock API Gateway events
 const createMockEvent = (
-  headers: Record<string, string> = {}, 
-  queryStringParameters: Record<string, string> | null = null
-): APIGatewayProxyEvent => {
+  headers = {}, 
+  queryStringParameters = null
+) => {
   return {
     headers,
     queryStringParameters,
@@ -15,7 +15,7 @@ const createMockEvent = (
     multiValueQueryStringParameters: {},
     pathParameters: null,
     stageVariables: null,
-    requestContext: {} as any,
+    requestContext: {},
     resource: '',
     httpMethod: 'GET',
     path: '',

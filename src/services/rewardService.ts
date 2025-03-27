@@ -22,10 +22,10 @@ export class RewardService {
       merchant = await this.merchantService.getMerchantById(transaction.merchantId);
     } catch (error) {
       console.error('Error fetching merchant:', error);
-      return null;
+      return null; // exception
     }
     if (!merchant || !merchant.isActive) {
-      return null;
+      return null; // failed reward
     }
     
     // Verify user exists
@@ -34,10 +34,10 @@ export class RewardService {
       user = await this.userService.getUserById(transaction.userId);
     } catch (error) {
       console.error('Error fetching user:', error);
-      return null;
+      return null; // exception 
     }
     if (!user) {
-      return null;
+      return null // exception;
     }
     
     // Determine if user gets a reward (20% chance)
@@ -48,7 +48,7 @@ export class RewardService {
       const rewardAmount = transaction.amount * (rewardPercentage / 100);
       
       // Create reward
-      const reward = {
+      const reward: Reward = {
         id: uuidv4(), // Use UUID for unique reward IDs
         userId: user.id,
         merchantId: merchant.id,
@@ -62,12 +62,17 @@ export class RewardService {
       // Process reward
       try {
         // This could fail and leave the reward in a pending state with no retry mechanism
+        // db transaction on transaction record {
+        // ensure no reward exists on transaction record
         await this.issueRewardToUser(reward);
         reward.status = 'issued';
         console.log('Reward issued successfully:', reward);
+        // }
         return reward;
+
       } catch (error) {
         console.error('Failed to issue reward:', error);
+        //
         return reward; // Returns the reward with status still "pending"
       }
     }

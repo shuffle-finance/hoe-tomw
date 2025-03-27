@@ -29,3 +29,35 @@ As Head of Engineering, you need to create a plan for the next 3 weeks. Your res
 You should spend approximately 20 minutes on this task.
 
 There are no perfect answers, but your response should demonstrate how you balance technical needs, business requirements, team health, and communication in a leadership role.
+
+
+# Plan!
+
+Security:
+   Are there any legal/data protection issues we _must_ address
+   Are we happy with a business/reputational risk?
+   Is it possible to monitor if this vunerability is happening or not?
+   Do we have other quicker options than a fix?
+
+   If not: DO IT!
+
+Developer productivity
+   Big risks on skipping tests!
+   Can this be scaled to more machines to run quicker? (£££)
+   Can we have any process changes that work around the issue?
+   Timebox time with engineers to tackle it!
+
+Developer productivity
+   Since we're against the clock with a deadline, pair with a more senior engineer when starting a ticket to get architecture in place
+         On complex tickets, encourage reaching out for help as they go along before having to rewrite PRs
+   Actively avoid tickets which likely will be a struggle
+
+Business portal:
+   Can we deliver incrementally?
+   Will a delay in the portal affect launch?
+   Can the team support the manual work if time is critical?
+
+Infra costs:
+   Identify quick wins (turn off unused services, optimise worst query)
+   Timebox time spent, and agree back-of-napkin additional costs
+   Add infra updates to roadmap, after portal
